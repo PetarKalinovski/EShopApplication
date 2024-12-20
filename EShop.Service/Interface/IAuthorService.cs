@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Service.Interface
 {
-    internal interface IAuthorService
+    public interface IAuthorService
     {
         Author GetDetailsForAuthor(Guid? id);
         void CreateNewAuthor(Author b);

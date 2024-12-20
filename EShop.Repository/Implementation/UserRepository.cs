@@ -1,4 +1,4 @@
-﻿using EShop.Domain.Identity;
+﻿using EShop.Domain;
 using EShop.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,9 +28,6 @@ namespace EShop.Repository.Implementation
         public EShopApplicationUser Get(string id)
         {
             return entities
-               .Include(z => z.ShoppingCart)
-               .Include("ShoppingCart.ProductInShoppingCarts")
-               .Include("ShoppingCart.ProductInShoppingCarts.Product")
                .SingleOrDefault(s => s.Id == id);
         }
         public void Insert(EShopApplicationUser entity)

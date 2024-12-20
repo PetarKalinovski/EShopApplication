@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using EShop.Domain.Identity;
+using EShop.Domain;
 
 namespace Eshop.Web.Areas.Identity.Pages.Account
 {

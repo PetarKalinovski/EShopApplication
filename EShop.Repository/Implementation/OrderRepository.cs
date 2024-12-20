@@ -1,6 +1,5 @@
 ﻿using Eshop.Domain.Domain;
 using EShop.Domain.Domain;
-using EShop.Domain.Identity;
 using EShop.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;

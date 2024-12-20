@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Domain
 {
-    public class User: IdentityUser
+    public class EShopApplicationUser: IdentityUser
 
     {
         public virtual ICollection<Order>? Order { get; set; }
