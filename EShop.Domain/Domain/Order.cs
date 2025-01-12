@@ -4,8 +4,7 @@ namespace Eshop.Domain.Domain
 {
     public class Order : BaseEntity
     {
-        public string userId {  get; set; }
-        public Guid Id { get; set; }
-        public ICollection<BookInOrder> books { get; set; }
+        public ICollection<BookInOrder> BookInOrders { get; set; } = new List<BookInOrder>();
     }
 }
+

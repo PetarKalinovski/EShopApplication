@@ -10,22 +10,22 @@ using Eshop.Domain.Domain;
 
 namespace Eshop.Web.Controllers
 {
-    public class AuthorsController : Controller
+    public class PublishersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AuthorsController(ApplicationDbContext context)
+        public PublishersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Authors
+        // GET: Publishers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Authors.ToListAsync());
+            return View(await _context.Publishers.ToListAsync());
         }
 
-        // GET: Authors/Details/5
+        // GET: Publishers/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -33,40 +33,40 @@ namespace Eshop.Web.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Authors
+            var publisher = await _context.Publishers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (author == null)
+            if (publisher == null)
             {
                 return NotFound();
             }
 
-            return View(author);
+            return View(publisher);
         }
 
-        // GET: Authors/Create
+        // GET: Publishers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Authors/Create
+        // POST: Publishers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Biography,Id")] Author author)
+        public async Task<IActionResult> Create([Bind("Name,Id")] Publisher publisher)
         {
             if (ModelState.IsValid)
             {
-                author.Id = Guid.NewGuid();
-                _context.Add(author);
+                publisher.Id = Guid.NewGuid();
+                _context.Add(publisher);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(author);
+            return View(publisher);
         }
 
-        // GET: Authors/Edit/5
+        // GET: Publishers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace Eshop.Web.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Authors.FindAsync(id);
-            if (author == null)
+            var publisher = await _context.Publishers.FindAsync(id);
+            if (publisher == null)
             {
                 return NotFound();
             }
-            return View(author);
+            return View(publisher);
         }
 
-        // POST: Authors/Edit/5
+        // POST: Publishers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Biography,Id")] Author author)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id")] Publisher publisher)
         {
-            if (id != author.Id)
+            if (id != publisher.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace Eshop.Web.Controllers
             {
                 try
                 {
-                    _context.Update(author);
+                    _context.Update(publisher);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AuthorExists(author.Id))
+                    if (!PublisherExists(publisher.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace Eshop.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(author);
+            return View(publisher);
         }
 
-        // GET: Authors/Delete/5
+        // GET: Publishers/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -125,34 +125,34 @@ namespace Eshop.Web.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Authors
+            var publisher = await _context.Publishers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (author == null)
+            if (publisher == null)
             {
                 return NotFound();
             }
 
-            return View(author);
+            return View(publisher);
         }
 
-        // POST: Authors/Delete/5
+        // POST: Publishers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var author = await _context.Authors.FindAsync(id);
-            if (author != null)
+            var publisher = await _context.Publishers.FindAsync(id);
+            if (publisher != null)
             {
-                _context.Authors.Remove(author);
+                _context.Publishers.Remove(publisher);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AuthorExists(Guid id)
+        private bool PublisherExists(Guid id)
         {
-            return _context.Authors.Any(e => e.Id == id);
+            return _context.Publishers.Any(e => e.Id == id);
         }
     }
 }

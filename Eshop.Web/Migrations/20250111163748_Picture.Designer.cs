@@ -4,6 +4,7 @@ using EShop.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eshop.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250111163748_Picture")]
+    partial class Picture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,15 +27,15 @@ namespace Eshop.Web.Migrations
 
             modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.Property<Guid>("AuthorsId")
+                    b.Property<Guid>("authorsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BooksId")
+                    b.Property<Guid>("booksId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AuthorsId", "BooksId");
+                    b.HasKey("authorsId", "booksId");
 
-                    b.HasIndex("BooksId");
+                    b.HasIndex("booksId");
 
                     b.ToTable("AuthorBook");
                 });
@@ -108,12 +111,10 @@ namespace Eshop.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Biography")
-                        .IsRequired()
+                    b.Property<string>("biography")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -127,9 +128,6 @@ namespace Eshop.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,18 +137,21 @@ namespace Eshop.Web.Migrations
                     b.Property<string>("PictureUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<Guid?>("PublisherId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float?>("price")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("publisherid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PublisherId");
+                    b.HasIndex("publisherid");
 
                     b.ToTable("Book");
                 });
@@ -164,17 +165,17 @@ namespace Eshop.Web.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("orderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("orderId");
 
                     b.ToTable("BookInOrders");
                 });
@@ -188,6 +189,10 @@ namespace Eshop.Web.Migrations
                     b.Property<string>("EShopApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EShopApplicationUserId");
@@ -197,15 +202,15 @@ namespace Eshop.Web.Migrations
 
             modelBuilder.Entity("Eshop.Domain.Domain.Publisher", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Publishers");
                 });
@@ -351,24 +356,24 @@ namespace Eshop.Web.Migrations
                 {
                     b.HasOne("Eshop.Domain.Domain.Author", null)
                         .WithMany()
-                        .HasForeignKey("AuthorsId")
+                        .HasForeignKey("authorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Eshop.Domain.Domain.Book", null)
                         .WithMany()
-                        .HasForeignKey("BooksId")
+                        .HasForeignKey("booksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Eshop.Domain.Domain.Book", b =>
                 {
-                    b.HasOne("Eshop.Domain.Domain.Publisher", "Publisher")
-                        .WithMany("Books")
-                        .HasForeignKey("PublisherId");
+                    b.HasOne("Eshop.Domain.Domain.Publisher", "publisher")
+                        .WithMany()
+                        .HasForeignKey("publisherid");
 
-                    b.Navigation("Publisher");
+                    b.Navigation("publisher");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Domain.BookInOrder", b =>
@@ -380,8 +385,8 @@ namespace Eshop.Web.Migrations
                         .IsRequired();
 
                     b.HasOne("Eshop.Domain.Domain.Order", "Order")
-                        .WithMany("BookInOrders")
-                        .HasForeignKey("OrderId")
+                        .WithMany("books")
+                        .HasForeignKey("orderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -455,12 +460,7 @@ namespace Eshop.Web.Migrations
 
             modelBuilder.Entity("Eshop.Domain.Domain.Order", b =>
                 {
-                    b.Navigation("BookInOrders");
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Domain.Publisher", b =>
-                {
-                    b.Navigation("Books");
+                    b.Navigation("books");
                 });
 #pragma warning restore 612, 618
         }

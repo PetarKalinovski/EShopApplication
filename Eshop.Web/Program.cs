@@ -26,11 +26,11 @@ builder.Services.AddDefaultIdentity<EShopApplicationUser>(options => options.Sig
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+
 
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IBookService,BookService>();
-builder.Services.AddTransient<IOrderService, OrderService>();
+
 
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>

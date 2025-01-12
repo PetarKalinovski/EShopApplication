@@ -1,36 +1,32 @@
-﻿@model IEnumerable<Eshop.Domain.Domain.Order>
+﻿@model IEnumerable<Eshop.Domain.Domain.BookInOrder>
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<h1>All Books in Orders</h1>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.userId)
-            </th>
-            <th></th>
+            <th>Order ID</th>
+            <th>Book Title</th>
+            <th>Quantity</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.userId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @if (Model.Any())
+        {
+            foreach (var bookInOrder in Model)
+            {
+                <tr>
+                    <td>@bookInOrder.Order.Id</td>
+                    <td>@bookInOrder.Book.Title</td>
+                    <td>@bookInOrder.Quantity</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No books in any orders.</td>
+            </tr>
+        }
     </tbody>
 </table>

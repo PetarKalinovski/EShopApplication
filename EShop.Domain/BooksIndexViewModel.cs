@@ -1,15 +1,16 @@
 ﻿using Eshop.Domain.Domain;
-using EShop.Domain.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Repository.Interface
+namespace EShop.Domain
 {
-    public interface IOrderRepository
+    public class BooksIndexViewModel
     {
-        Order GetDetailsForOrder(BaseEntity id);
+        public IEnumerable<Book> Books { get; set; }
+        public Guid OrderId { get; set; }
     }
+
 }
